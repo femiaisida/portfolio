@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home - My Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <nav>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About Me</a>
+      <a href="work.html">Work Experience</a>
+      <a href="projects2.html">Projects</a>
+    </div>
+    <button class="toggle-btn" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+  </nav>
+
+  <div class="settings">
+    <button class="button" onclick="alert('Settings panel coming soon!')">⚙ Settings</button>
+    <button class="button" onclick="window.scrollTo(0,0)">⬆ Scroll to Top</button>
+    <a href="cv.pdf" class="button" download>⬇ Download CV</a>
+  </div>
+
+  <h1>Welcome to My Portfolio</h1>
+
+  <div class="card">
+    <h2>What I Do</h2>
+    <p>I build clean and responsive websites. Check out my work and experience using the navigation above.</p>
+  </div>
+
+  <div class="card">
+    <h2>Skills</h2>
+    <p>HTML (a little), CSS (not yet), JavaScript(not yet), Python(a little), Git(not yet), Responsive Design(not yet)</p>
+  </div>
+
+  <div class="card">
+    <h2>Contact</h2>
+    <form onsubmit="event.preventDefault(); alert('Message sent!');">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <textarea placeholder="Your Message" required></textarea>
+      <button type="submit" class="button">Send Message</button>
+    </form>
+  </div>
+
+  <footer style="margin-top: 40px; text-align: center; opacity: 0.6">
+    <p>© 2025 My Portfolio | <a href="#">LinkedIn</a> | <a href="#">GitHub</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
