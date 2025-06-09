@@ -37,15 +37,24 @@
     <p>HTML (a little), CSS (not yet), JavaScript(not yet), Python(a little), Git(not yet), Responsive Design(not yet)</p>
   </div>
 
-  <div class="card">
-    <h2>Contact</h2>
-    <form onsubmit="event.preventDefault(); alert('Message sent!');">
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <textarea placeholder="Your Message" required></textarea>
-      <button type="submit" class="button">Send Message</button>
+  <section class="card">
+    <h2>Contact Me</h2>
+    <form action="https://formspree.io/f/xjkryojg" method="POST">
+      <label>
+        Your Name:
+        <input type="text" name="name" required>
+      </label>
+      <label>
+        Your Email:
+        <input type="email" name="email" required>
+      </label>
+      <label>
+        Your Message:
+        <textarea name="message" rows="5" required></textarea>
+      </label>
+      <button class="button" type="submit">Send Message</button>
     </form>
-  </div>
+  </section>
 
   <footer style="margin-top: 40px; text-align: center; opacity: 0.6">
     <p>© 2025 My Portfolio | <a href="#">LinkedIn</a> | <a href="#">GitHub</a></p>
