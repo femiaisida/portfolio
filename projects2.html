@@ -8,6 +8,7 @@
   <link rel="icon" href="favicon.png" type="image/png">
 </head>
 <body>
+  <!-- Navigation: common to your site -->
   <nav>
     <div class="nav-links">
       <a href="index.html">Home</a>
@@ -20,51 +21,59 @@
 
   <h1>My Projects</h1>
 
+  <!-- Card 1: Personal Website -->
   <div class="card">
     <h2>Personal Website</h2>
     <p>Built this very website to showcase my learning and skills.</p>
   </div>
 
+  <!-- Card 2: Weather Checking App -->
   <div class="card">
-  <h2>Weather Checking App</h2>
-  <p>
-    Created a web app that checks the weather for the postcode entered and sends you an email if the temperature is forecast to be very hot or very cold tomorrow.
-  </p>
-  
-  <div class="card embed-card">
-    <h3>App Demo</h3>
-    <iframe 
-      src="weather.html" 
-      onload="this.classList.add('loaded')"
-      allowfullscreen>
-    </iframe>
-    <a class="button" href="weather.html">
-      🔗 View Full App
-    </a>
+    <h2>Weather Checking App</h2>
+    <p>
+      Created a web app that checks the weather for the entered postcode and sends you an email if the temperature 
+      is forecast to be very hot or very cold the next day.
+    </p>
+    <div class="card embed-card">
+      <h3>App Demo</h3>
+      <!-- The iframe loads your new weather app -->
+      <iframe 
+        src="weather copy.html" 
+        onload="this.classList.add('loaded')"
+        allowfullscreen>
+      </iframe>
+      <a class="button" href="weather.html" target="_blank">
+        🔗 View Full App
+      </a>
+    </div>
   </div>
-</div>
 
-
-<div class="card">
+  <!-- Card 3: Email Sending App -->
+  <div class="card">
     <h2>Email Sending App</h2>
-    <p>Created an app that thats sends emails using PowerApps</p>
-    
-   <div class="card embed-card">
-  <h3>App Demo</h3>
-  <iframe 
-    src="https://apps.powerapps.com/play/e/c994d40d-29f6-efdd-bb2b-d3144d1250ad/a/83068641-3553-45f8-aa24-d1113c7fe111?tenantId=75c2b3b3-0415-4d02-a569-8240135485a2&hint=2d29a334-b24d-4f0c-b983-222d2139d173&sourcetime=1749644851558"
-    onload="this.classList.add('loaded')"
-    allowfullscreen>
-  </iframe>
-  <a class="button" href="https://apps.powerapps.com/play/e/c994d40d-29f6-efdd-bb2b-d3144d1250ad/a/9fbab4fb-81ad-4d3a-9df6-44cf97c816ce?tenantId=75c2b3b3-0415-4d02-a569-8240135485a2" target="_blank">
-    🔗 View Full App
-  </a>
-</div>
+    <p>
+      Developed a web app that sends an email from input fields using EmailJS. Recipients can reply directly to the sender.
+    </p>
+    <div class="card embed-card">
+      <h3>App Demo</h3>
+      <!-- The iframe loads your new email-sender app -->
+      <iframe 
+        src="email-sender copy.html" 
+        onload="this.classList.add('loaded')"
+        allowfullscreen>
+      </iframe>
+      <a class="button" href="email-sender.html" target="_blank">
+        🔗 View Full App
+      </a>
+    </div>
+  </div>
 
-
- <div class="card">
+  <!-- Card 4: StudyMate (In Progress) -->
+  <div class="card">
     <h2>StudyMate (in progress)</h2>
-    <p>A clean, interactive web app that helps GCSE students organise their revision using flashcards, quizzes, and a weekly planner.</p>
+    <p>
+      A clean, interactive web app that helps GCSE students organise their revision using flashcards, quizzes, and a weekly planner.
+    </p>
   </div>
 
   <footer style="text-align: center; opacity: 0.6">
