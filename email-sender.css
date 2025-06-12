@@ -1,0 +1,124 @@
+/* email-sender.css */
+
+/* Theme Variables */
+:root {
+  --screen-bkg-color: #ffffff; /* White */
+  --inverted-bkg-color: rgba(56, 96, 178, 1);
+  --primary-color-1: rgba(56, 96, 178, 1);
+  --primary-color-1-light: rgba(56, 96, 178, 0.2);
+  --text-main: rgba(0, 0, 0, 1);
+  --text-main-inverted: rgba(255, 255, 255, 1);
+  --input-bkg: rgba(255, 255, 255, 1);
+  --input-text: rgba(0, 0, 0, 1);
+  --input-border: rgba(0, 18, 107, 1);
+  --hover-button-bkg: rgba(45, 77, 142, 1);
+  --container-radius: 4px;
+  --font-family: 'Lato', sans-serif;
+}
+
+/* Global Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--screen-bkg-color);
+  color: var(--text-main);
+}
+
+/* Navigation Bar (same as your other pages) */
+nav {
+  padding: 1rem;
+  background-color: var(--primary-color-1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links a {
+  margin-right: 1rem;
+  color: var(--text-main-inverted);
+  text-decoration: none;
+}
+
+.nav-links a.active {
+  text-decoration: underline;
+}
+
+.toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-main-inverted);
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+/* Email App Container */
+.email-app {
+  max-width: 1366px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+/* Header */
+.email-app header {
+  background-color: rgba(153, 207, 236, 1);
+  padding: 1rem;
+  text-align: center;
+  border-radius: var(--container-radius);
+}
+
+.email-app header h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* Form Container */
+.form-container {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: var(--input-bkg);
+  border: 2px solid var(--input-border);
+  border-radius: var(--container-radius);
+}
+
+.form-row {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid var(--input-border);
+  border-radius: var(--container-radius);
+  font-size: 1rem;
+  color: var(--input-text);
+}
+
+textarea {
+  resize: vertical;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color-1);
+  color: var(--text-main-inverted);
+  border: 2px solid var(--input-border);
+  border-radius: var(--container-radius);
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: var(--hover-button-bkg);
+}
