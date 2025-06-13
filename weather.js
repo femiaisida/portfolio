@@ -35,8 +35,8 @@ document.getElementById('getForecast').addEventListener('click', () => {
 });
 
 // Define extreme weather thresholds.
-const hotThreshold = 30; // Temperatures above 30°C are considered very hot.
-const coldThreshold = 5; // Temperatures below 5°C are considered very cold.
+const hotThreshold = 25; // Temperatures above 25°C are considered very hot.
+const coldThreshold = 8; // Temperatures below 8°C are considered very cold.
 
 // Event listener for the "Enter" button (sending an email).
 document.getElementById('submitEmail').addEventListener('click', () => {
