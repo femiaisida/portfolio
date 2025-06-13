@@ -1,78 +1,86 @@
-/* weather.js */
+// weather.js
 
-// Global variable to store the current forecast data.
-let currentForecast = {};
+document.addEventListener("DOMContentLoaded", () => {
+  let currentForecast = {};
+  const hotThreshold = 25;
+  const coldThreshold = 8;
 
-// Simulated function to fetch forecast data (replace with real API call as needed).
-function getMockForecast(postcode) {
-  // In production, you would call a weather API using the postcode.
-  return {
-    conditions: "Sunny",
-    day_summary: "Clear skies throughout the day.",
-    night_summary: "Mild and calm.",
-    temperature_high: 32,  // Example value: extreme heat
-    temperature_low: 14    // Example value: normal cold
-  };
-}
+  const postcodeInput = document.getElementById("postcode");
+  const forecastButton = document.getElementById("getForecast");
+  const emailInput = document.getElementById("email");
+  const emailButton = document.getElementById("submitEmail");
 
-// Event listener for "Get Tomorrow's Forecast" button.
-document.getElementById('getForecast').addEventListener('click', () => {
-  const postcode = document.getElementById('postcode').value.trim();
-  if (!postcode) {
-    alert("Please enter a postcode.");
-    return;
+  // Simulated weather data (replace with real API if needed)
+  function getMockForecast(postcode) {
+    return {
+      conditions: "Sunny",
+      day_summary: "Clear skies throughout the day.",
+      night_summary: "Mild and calm.",
+      temperature_high: 32,
+      temperature_low: 14
+    };
   }
 
-  // Get forecast data (using mock data here)
-  currentForecast = getMockForecast(postcode);
-
-  // Update the forecast display in the DOM.
-  document.getElementById('conditions').textContent = currentForecast.conditions;
-  document.getElementById('daySummary').textContent = currentForecast.day_summary;
-  document.getElementById('nightSummary').textContent = currentForecast.night_summary;
-  document.getElementById('tempHigh').textContent = currentForecast.temperature_high;
-  document.getElementById('tempLow').textContent = currentForecast.temperature_low;
-});
-
-// Define extreme weather thresholds.
-const hotThreshold = 25; // Temperatures above 25°C are considered very hot.
-const coldThreshold = 8; // Temperatures below 8°C are considered very cold.
-
-// Event listener for the "Enter" button (sending an email).
-document.getElementById('submitEmail').addEventListener('click', () => {
-  const email = document.getElementById('email').value.trim();
-  if (!email) {
-    alert("Please provide an email address.");
-    return;
+  // Display forecast in the UI
+  function updateForecastDisplay(forecast) {
+    document.getElementById("conditions").textContent = forecast.conditions;
+    document.getElementById("daySummary").textContent = forecast.day_summary;
+    document.getElementById("nightSummary").textContent = forecast.night_summary;
+    document.getElementById("tempHigh").textContent = forecast.temperature_high;
+    document.getElementById("tempLow").textContent = forecast.temperature_low;
   }
 
-  // Evaluate forecast conditions.
-  let message = "";
-  if (currentForecast.temperature_high > hotThreshold) {
-    message = "Warning: It will be very hot tomorrow! Stay cool and hydrated.";
-  } else if (currentForecast.temperature_low < coldThreshold) {
-    message = "Warning: It will be very cold tomorrow! Bundle up and stay warm.";
-  }
-  
-  if (!message) {
-    alert("Tomorrow's forecast is within normal ranges. No alert will be sent.");
-    return;
-  }
+  // Handle forecast fetch
+  forecastButton?.addEventListener("click", () => {
+    const postcode = postcodeInput.value.trim();
+    if (!postcode) {
+      alert("Please enter a postcode.");
+      return;
+    }
 
-  // Prepare template parameters for EmailJS.
-  const templateParams = {
-    to_email: email,
-    subject: "Extreme Weather Alert!",
-    message: message
-  };
+    currentForecast = getMockForecast(postcode);
+    updateForecastDisplay(currentForecast);
+  });
 
-  // Send email using EmailJS.
-  emailjs.send('service_pliykwl', 'template_cpdx3ic', templateParams)
-    .then(function(response) {
-      console.log("SUCCESS!", response.status, response.text);
-      alert("Extreme weather alert sent successfully!");
-    }, function(error) {
-      console.log("FAILED...", error);
-      alert("Failed to send email. Please try again later.");
-    });
+  // Handle email alert
+  emailButton?.addEventListener("click", () => {
+    const email = emailInput.value.trim();
+    if (!email) {
+      alert("Please provide an email address.");
+      return;
+    }
+
+    if (!window.emailjsReady) {
+      alert("Email service is still loading. Please try again in a few seconds.");
+      return;
+    }
+
+    let message = "";
+    if (currentForecast.temperature_high > hotThreshold) {
+      message = "Warning: It will be very hot tomorrow! Stay cool and hydrated.";
+    } else if (currentForecast.temperature_low < coldThreshold) {
+      message = "Warning: It will be very cold tomorrow! Bundle up and stay warm.";
+    }
+
+    if (!message) {
+      alert("Tomorrow's forecast is within normal ranges. No alert will be sent.");
+      return;
+    }
+
+    const templateParams = {
+      to_email: email,
+      subject: "Extreme Weather Alert!",
+      message: message
+    };
+
+    emailjs.send("service_pliykwl", "template_cpdx3ic", templateParams)
+      .then((response) => {
+        console.log("SUCCESS!", response.status, response.text);
+        alert("Extreme weather alert sent successfully!");
+      })
+      .catch((error) => {
+        console.error("FAILED...", error);
+        alert("Failed to send email. Please try again later.");
+      });
+  });
 });

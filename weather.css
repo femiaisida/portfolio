@@ -1,89 +1,100 @@
 /* weather.css */
 
 /* ----------------------------------------------------
-   Theme Variables (customizable based on your brand)
-------------------------------------------------------- */
+   Custom Theme Variables
+---------------------------------------------------- */
 :root {
-  --screen-bkg-color: #ffffff;
-  --primary-color-1: rgba(56, 96, 178, 1);
-  --text-main-inverted: rgba(255, 255, 255, 1);
-  --input-bkg: rgba(255, 255, 255, 1);
-  --input-text: rgba(0, 0, 0, 1);
+  --bkg: #ffffff;
+  --text: #000000;
+  --accent: rgba(56, 96, 178, 1);
+  --accent-light: rgba(56, 96, 178, 0.2);
+  --accent-hover: rgba(45, 77, 142, 1);
+  --text-invert: #ffffff;
+  --input-bkg: #ffffff;
   --input-border: rgba(0, 18, 107, 1);
-  --hover-button-bkg: rgba(45, 77, 142, 1);
-  --container-radius: 4px;
-  --font-family: 'Lato', sans-serif;
+  --radius: 4px;
+  --font: 'Lato', sans-serif;
 }
 
-/* Global Styles */
+/* Global Base */
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-family);
-  background-color: var(--screen-bkg-color);
-  color: var(--input-text);
+  font-family: var(--font);
+  background-color: var(--bkg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Weather App Container */
+/* App Container */
 .weather-app {
-  background-color: var(--primary-color-1);
-  color: var(--text-main-inverted);
   max-width: 1366px;
   margin: 0 auto;
   padding: 2rem;
+  background-color: var(--accent);
+  color: var(--text-invert);
+  border-radius: var(--radius);
 }
 
 /* Header */
 .weather-app header h1 {
   text-align: center;
-  font-size: 35px;
+  font-size: 2.25rem;
   margin: 0;
-  padding: 0.5rem;
+  padding-bottom: 1rem;
 }
 
-/* Input Section */
+/* Shared Form Section */
 .input-section,
 .email-section {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }
 
-.input-section label,
-.email-section label {
+label {
   display: block;
   margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
-.input-section input,
-.email-section input {
+input[type="text"],
+input[type="email"] {
   width: 100%;
   max-width: 320px;
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
   border: 2px solid var(--input-border);
   background-color: var(--input-bkg);
-  color: var(--input-text);
-  border-radius: var(--container-radius);
-  margin-bottom: 0.5rem;
+  color: var(--text);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
-.input-section button,
-.email-section button {
+input:focus {
+  outline: none;
+  border-color: var(--accent-hover);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+/* Buttons */
+button {
+  margin-top: 0.5rem;
   padding: 0.5rem 1rem;
-  background-color: var(--primary-color-1);
-  color: var(--text-main-inverted);
-  border: 2px solid var(--input-border);
-  border-radius: var(--container-radius);
-  cursor: pointer;
   font-weight: bold;
+  background-color: var(--accent);
+  color: var(--text-invert);
+  border: 2px solid var(--input-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.input-section button:hover,
-.email-section button:hover {
-  background-color: var(--hover-button-bkg);
+button:hover {
+  background-color: var(--accent-hover);
 }
 
 /* Forecast Section */
 .forecast-section {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
 }
 
 .forecast-grid {
@@ -94,13 +105,53 @@ body {
 
 .forecast-block {
   background-color: #222;
+  color: var(--text-invert);
   padding: 1rem;
-  border-radius: var(--container-radius);
+  border-radius: var(--radius);
   text-align: center;
-  color: var(--text-main-inverted);
 }
 
 .forecast-block strong {
   display: block;
   margin-bottom: 0.5rem;
+  font-size: 1rem;
 }
+
+/* Mobile Optimizations */
+@media (max-width: 600px) {
+  .weather-app {
+    padding: 1rem;
+  }
+
+  .forecast-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Spinner style */
+#submitEmail.loading {
+  pointer-events: none;
+  opacity: 0.7;
+  position: relative;
+}
+
+#submitEmail.loading::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border: 2px solid white;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+

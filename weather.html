@@ -5,13 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Weather Forecast</title>
   <link rel="stylesheet" href="weather.css" />
-   <link rel="stylesheet" href="style.css" />
-  <script type="text/javascript" src="https://cdn.emailjs.com/sdk/3.2/email.min.js"></script>
-<script>
-  emailjs.init('gzvOEAhNIJOR8CMkS'); // Use your public key here
-</script>
-
-  </script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 </head>
 <body>
   <!-- Navigation Bar -->
@@ -32,40 +27,22 @@
       <h1>WEATHER FORECAST</h1>
     </header>
 
-    <!-- Input Section for Postcode and Forecast Button -->
     <section class="input-section">
       <label for="postcode">Where do you want the weather for?</label>
       <input type="text" id="postcode" placeholder="Enter the postcode..." />
       <button id="getForecast">Get Tomorrow's Forecast</button>
     </section>
 
-    <!-- Forecast Display Section -->
     <section class="forecast-section">
       <div class="forecast-grid">
-        <div class="forecast-block">
-          <strong>Conditions</strong>
-          <p id="conditions">--</p>
-        </div>
-        <div class="forecast-block">
-          <strong>Day Summary</strong>
-          <p id="daySummary">--</p>
-        </div>
-        <div class="forecast-block">
-          <strong>Night Summary</strong>
-          <p id="nightSummary">--</p>
-        </div>
-        <div class="forecast-block">
-          <strong>Temperature High (C)</strong>
-          <p id="tempHigh">--</p>
-        </div>
-        <div class="forecast-block">
-          <strong>Temperature Low (C)</strong>
-          <p id="tempLow">--</p>
-        </div>
+        <div class="forecast-block"><strong>Conditions</strong><p id="conditions">--</p></div>
+        <div class="forecast-block"><strong>Day Summary</strong><p id="daySummary">--</p></div>
+        <div class="forecast-block"><strong>Night Summary</strong><p id="nightSummary">--</p></div>
+        <div class="forecast-block"><strong>Temperature High (°C)</strong><p id="tempHigh">--</p></div>
+        <div class="forecast-block"><strong>Temperature Low (°C)</strong><p id="tempLow">--</p></div>
       </div>
     </section>
 
-    <!-- Email Section for Alert Registration -->
     <section class="email-section">
       <label for="email">What is your email?</label>
       <input type="email" id="email" placeholder="Enter your email..." />
@@ -73,10 +50,44 @@
     </section>
   </div>
 
-  <!-- Link to the weather.js file that handles functionality -->
-  <script src="weather.js"></script>
-  <script src="script.js"></script>
-  <footer>
+  <footer style="text-align: center; opacity: 0.6">
     <p>© 2025 My Portfolio</p>
+  </footer>
+
+  <!-- Load EmailJS SDK first -->
+  <script>
+  const sdk = document.createElement("script");
+  sdk.src = "https://cdn.emailjs.com/sdk/3.2/email.min.js";
+
+  const spinnerBtn = document.getElementById("submitEmail");
+  spinnerBtn?.classList.add("loading");
+
+  sdk.onload = () => {
+    emailjs.init("gzvOEAhNIJOR8CMkS");
+    window.emailjsReady = true;
+    spinnerBtn?.classList.remove("loading");
+  };
+
+  document.head.appendChild(sdk);
+</script>
+
+<script>
+  window.emailjsReady = false; // declare globally for weather.js to see
+
+  const sdk = document.createElement("script");
+  sdk.src = "https://cdn.emailjs.com/sdk/3.2/email.min.js";
+  sdk.onload = () => {
+    console.log("✅ EmailJS SDK loaded");
+    emailjs.init("gzvOEAhNIJOR8CMkS"); // your real public key
+    window.emailjsReady = true;
+  };
+  document.head.appendChild(sdk);
+</script>
+
+
+
+  <!-- Then load your app logic -->
+  <script src="weather.js" defer></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
