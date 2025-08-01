@@ -114,15 +114,32 @@ function showRules() {
 
     showEl.textContent=""
     hideEl.textContent="CLICK TO SHOW RULES"
-
-
+    
 }
+
+
+
+
 
 function hideRules () {
 
     hideEl.textContent=""
     showEl.textContent="Rules: You need 21 to get Blackjack. Each new card costs $2 but if you get Blackjack you receive your original bet +$3"
+   showEl.innerHTMl += `
+   <style> 
+   .rules {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    text-align: left;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    background: #145214;
+    </style>
+    `
 }
+
 
 
 
