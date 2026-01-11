@@ -3,63 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home - My Portfolio</title>
+  <title>Home - Oluwafemi Aisida</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter&family=JetBrains+Mono&display=swap" rel="stylesheet" />
 </head>
 <body>
+  <!-- NAVIGATION -->
   <nav>
- <div class="nav-links">
+    <div class="nav-links">
       <a href="index.html" class="active">Home</a>
       <a href="about.html">About Me</a>
       <a href="work.html">Work Experience</a>
       <a href="projects2.html">Projects</a>
+      <a href="contact.html">Contact</a>
     </div>
-    <button class="toggle-btn" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
   </nav>
 
-  <div class="settings">
-    <button class="button" onclick="alert('Settings panel coming soon!')">⚙ Settings</button>
-    <button class="button" onclick="window.scrollTo(0,0)">⬆ Scroll to Top</button>
-    <a href="cv.pdf" class="button" download>⬇ Download CV</a>
-  </div>
+  <!-- HERO SECTION -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <p class="hero-tag">// Student Developer</p>
+        <h1>Oluwafemi Aisida</h1>
+        <p class="hero-subtitle">Frontend-focused · Aspiring Computer Scientist</p>
+        <p class="hero-description">
+          I build clean, functional web interfaces and am working towards studying Computer Science at a top UK university.
+        </p>
+        <div class="hero-actions">
+          <a href="projects2.html" class="btn primary">View Projects</a>
+          <a href="assets/cv.pdf" class="btn secondary">Download CV</a>
+        </div>
+      </div>
 
-  <h1>Welcome to My Portfolio</h1>
+      <div class="hero-code">
+        <pre><code id="typed-code"></code></pre>
+      </div>
+    </div>
+  </header>
 
-  <div class="card">
-    <h2>What I Do</h2>
-    <p>I build clean and responsive websites. Check out my work and experience using the navigation above.</p>
-  </div>
-
-  <div class="card">
-    <h2>Skills</h2>
-    <p>HTML, CSS, JavaScript, Python, Git, Responsive Design</p>
-  </div>
-
-  <section class="card">
-    <h2>Contact Me</h2>
-    <form action="https://formspree.io/f/xjkryojg" method="POST">
-      <label>
-        Your Name:
-        <input type="text" name="name" required>
-      </label>
-      <label>
-        Your Email:
-        <input type="email" name="email" required>
-      </label>
-      <label>
-        Your Message:
-        <textarea name="message" rows="5" required></textarea>
-      </label>
-      <button class="button" type="submit">Send Message</button>
-    </form>
+  <!-- WHAT I DO -->
+  <section class="container" style="margin-top: 60px;">
+    <div class="card">
+      <h2>What I Do</h2>
+      <p>I build clean and responsive websites. Check out my work and experience using the navigation above.</p>
+    </div>
   </section>
 
-  <footer style="margin-top: 40px; text-align: center; opacity: 0.6">
-    <p>© 2025 My Portfolio </p>
+  <!-- SKILLS -->
+  <section class="container" style="margin-top: 40px; margin-bottom: 60px;">
+    <div class="card">
+      <h2>Skills</h2>
+      <p>HTML, CSS, JavaScript, Python, Git, Responsive Design</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="text-align: center; opacity: 0.7; padding: 16px 0; font-size: 0.85rem;">
+    <p>© 2025 Oluwafemi Aisida</p>
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    // Typing animation only at the end of final line
+    const codeText = `const developer = {
+  name: "Oluwafemi",
+  focus: "Frontend",
+  learning: ["JavaScript", "UI Design"],
+  goal: "Computer Science"
+};`;
+
+    const typedCode = document.getElementById("typed-code");
+    let index = 0;
+
+    function typeCode() {
+      if(index < codeText.length) {
+        typedCode.textContent += codeText[index];
+        index++;
+        setTimeout(typeCode, 20);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", typeCode);
+  </script>
 </body>
 </html>

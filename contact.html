@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact - Oluwafemi Aisida</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="icon" href="assets/favicon.png" type="image/png">
+</head>
+<body>
+
+<nav>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About Me</a>
+    <a href="work.html">Work Experience</a>
+    <a href="projects2.html">Projects</a>
+    <a href="contact.html" class="active">Contact</a>
+  </div>
+</nav>
+
+<section class="container">
+  <h1>Contact Me</h1>
+
+  <div class="settings">
+    <a href="assets/cv.pdf" class="btn secondary" download>⬇ Download CV</a>
+    <button class="btn primary" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆ Scroll to Top</button>
+  </div>
+
+  <div class="card">
+    <form action="https://formspree.io/f/xjkryojg" method="POST">
+      <label>
+        Your Name:
+        <input type="text" name="name" required>
+      </label>
+      <label>
+        Your Email:
+        <input type="email" name="email" required>
+      </label>
+      <label>
+        Your Message:
+        <textarea name="message" rows="5" required></textarea>
+      </label>
+      <button class="btn primary" type="submit">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Oluwafemi Aisida</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
