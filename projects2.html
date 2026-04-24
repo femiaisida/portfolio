@@ -1,83 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Projects - Oluwafemi Aisida</title>
-<link rel="stylesheet" href="style.css" />
-<link rel="icon" href="assets/favicon.png" type="image/png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects - Oluwafemi Aisida</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-<nav>
-  <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="about.html">About Me</a>
-    <a href="work.html">Work Experience</a>
-    <a href="projects2.html" class="active">Projects</a>
-    <a href="contact.html">Contact</a>
-  </div>
-</nav>
-
-<section class="container">
-  <h1>My Projects</h1>
-
-  <div class="card">
-    <h2>Personal Website</h2>
-    <p>I built this very website to showcase my learning and skills.</p>
-  </div>
-
-  <div class="card">
-    <h2>Weather Checking App</h2>
-    <p>
-      A web app that checks the weather for a postcode and sends alerts for extreme temperatures.
-    </p>
-    <div class="embed-card">
-      <h3>App Demo</h3>
-      <iframe src="weather/weather copy.html" allowfullscreen></iframe>
-      <a class="btn primary" href="weather/weather.html" target="_blank">🔗 View Full App</a>
+  <nav>
+    <a href="index.html" class="nav-logo">Oluwafemi <span>Aisida</span></a>
+    <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Me</a>
+      <a href="work.html">Work Experience</a>
+      <a href="projects2.html" class="active">Projects</a>
+      <a href="contact.html">Contact</a>
     </div>
-  </div>
+  </nav>
 
-  <div class="card">
-    <h2>Email Sending App</h2>
-    <p>
-      Developed a web app that sends emails from input fields using EmailJS.
-    </p>
-    <div class="embed-card">
-      <h3>App Demo</h3>
-      <iframe src="email-sender/email-sender copy.html" allowfullscreen></iframe>
-      <a class="btn primary" href="email-sender/email-sender.html" target="_blank">🔗 View Full App</a>
+  <section class="container">
+    <h1>My Projects</h1>
+
+    <!-- REVISIONFLOW — featured first -->
+    <div class="card">
+      <p class="card-meta">// Featured Project</p>
+      <h2>RevisionFlow</h2>
+      <p>
+        A free AI-powered revision tracking web app built solo for UK GCSE and A-Level students.
+        Features include smart study session tracking, an AI tutor, gamification, a priority list,
+        exam timetable integration, and full user authentication — all backed by a real-time database.
+      </p>
+      <p class="project-stack">React 18 · Vite · Firebase · Mistral AI · Netlify</p>
+      <div class="project-links">
+        <a class="btn primary" href="https://revisionflow.netlify.app" target="_blank" rel="noopener">🚀 View Live</a>
+        <a class="btn secondary" href="https://github.com/femiaisida/revisionflow" target="_blank" rel="noopener">GitHub</a>
+      </div>
     </div>
-  </div>
 
-  <div class="card">
-    <h2>StudyMate</h2>
-    <p>
-      A web app helping GCSE students organise revision using flashcards, quizzes, and planners.
-    </p>
-    <div class="embed-card">
-      <h3>StudyMate</h3>
-      <iframe src="https://femiaisida.github.io/Study-Mate/" allowfullscreen></iframe>
-      <a class="btn primary" href="https://femiaisida.github.io/Study-Mate/" target="_blank">🔗 View Full Website</a>
+    <!-- STUDYMATE -->
+    <div class="card">
+      <h2>StudyMate</h2>
+      <p>
+        A web app helping GCSE students organise revision using flashcards, quizzes, and planners.
+      </p>
+      <p class="project-stack">HTML · CSS · JavaScript</p>
+      <div class="project-links">
+        <a class="btn primary" href="https://femiaisida.github.io/Study-Mate/" target="_blank" rel="noopener">🔗 View Live</a>
+        <a class="btn secondary" href="https://github.com/femiaisida/Study-Mate" target="_blank" rel="noopener">GitHub</a>
+      </div>
     </div>
-  </div>
 
-  <div class="card">
-    <h2>Blackjack</h2>
-    <p>Simple Blackjack game built with HTML, CSS, and JavaScript.</p>
-    <div class="embed-card">
-      <h3>Blackjack Game</h3>
-      <iframe src="blackjack/blackjack.html" allowfullscreen></iframe>
-      <a class="btn primary" href="blackjack/blackjack.html" target="_blank">🔗 View Full Game</a>
+    <!-- WEATHER APP -->
+    <div class="card">
+      <h2>Weather Checking App</h2>
+      <p>
+        A web app that fetches live weather data for any UK postcode and sends alerts for extreme
+        temperatures.
+      </p>
+      <p class="project-stack">HTML · CSS · JavaScript · OpenWeather API</p>
+      <div class="project-links">
+        <a class="btn primary" href="weather/weather.html" target="_blank" rel="noopener">🔗 View App</a>
+        <a class="btn secondary" href="https://github.com/femiaisida/portfolio/tree/main/weather" target="_blank" rel="noopener">GitHub</a>
+      </div>
     </div>
-  </div>
-</section>
 
-<footer>
-  <p>© 2025 Oluwafemi Aisida</p>
-</footer>
+    <!-- EMAIL SENDER -->
+    <div class="card">
+      <h2>Email Sending App</h2>
+      <p>
+        A web app that sends emails from input fields using the EmailJS API — no backend required.
+      </p>
+      <p class="project-stack">HTML · CSS · JavaScript · EmailJS</p>
+      <div class="project-links">
+        <a class="btn primary" href="email-sender/email-sender.html" target="_blank" rel="noopener">🔗 View App</a>
+        <a class="btn secondary" href="https://github.com/femiaisida/portfolio/tree/main/email-sender" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
 
-<script src="script.js"></script>
+    <!-- BLACKJACK -->
+    <div class="card">
+      <h2>Blackjack</h2>
+      <p>
+        A fully playable browser-based Blackjack game with card logic, hit/stand mechanics, and a
+        win/lose state.
+      </p>
+      <p class="project-stack">HTML · CSS · JavaScript</p>
+      <div class="project-links">
+        <a class="btn primary" href="blackjack/blackjack.html" target="_blank" rel="noopener">🎮 Play Game</a>
+        <a class="btn secondary" href="https://github.com/femiaisida/portfolio/tree/main/blackjack" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
+    <!-- THIS WEBSITE -->
+    <div class="card">
+      <h2>This Portfolio</h2>
+      <p>
+        Designed and built this portfolio site from scratch to showcase my projects and experience.
+        Features a typing animation, scroll fade-ins, a floating glassmorphism nav, and full mobile
+        responsiveness.
+      </p>
+      <p class="project-stack">HTML · CSS · JavaScript</p>
+      <div class="project-links">
+        <a class="btn secondary" href="https://github.com/femiaisida/portfolio" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="https://github.com/femiaisida" target="_blank" rel="noopener">GitHub</a>
+      <a href="contact.html">Contact</a>
+      <a href="assets/cv.pdf" download>Download CV</a>
+    </div>
+    <p>© 2026 Oluwafemi Aisida</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

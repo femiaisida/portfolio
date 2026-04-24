@@ -1,84 +1,117 @@
 // =============================
-// Hero Typing Animation
+// Hamburger Nav Toggle
+// =============================
+document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.querySelector(".nav-toggle");
+  const navLinks = document.querySelector(".nav-links");
+
+  if (toggle && navLinks) {
+    toggle.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+      toggle.textContent = navLinks.classList.contains("open") ? "✕" : "☰";
+    });
+
+    // Close menu when a link is clicked
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        toggle.textContent = "☰";
+      });
+    });
+  }
+});
+
+// =============================
+// Hero Typing Animation with Syntax Highlighting
 // =============================
 document.addEventListener("DOMContentLoaded", () => {
   const heroCode = document.querySelector(".hero-code pre code");
-  const codeLines = heroCode.textContent.split("\n");
-  heroCode.textContent = ""; // clear for typing
+  if (!heroCode) return;
 
-  let lineIndex = 0;
+  // Structured tokens for syntax highlighting
+  const tokens = [
+    { text: "const",      cls: "syn-keyword" },
+    { text: " developer", cls: "syn-key" },
+    { text: " =",         cls: "syn-punct" },
+    { text: " {",         cls: "syn-bracket" },
+    { text: "\n  name",   cls: "syn-key" },
+    { text: ":",          cls: "syn-punct" },
+    { text: ' "Oluwafemi"', cls: "syn-string" },
+    { text: ",",          cls: "syn-punct" },
+    { text: "\n  focus",  cls: "syn-key" },
+    { text: ":",          cls: "syn-punct" },
+    { text: ' "Frontend"', cls: "syn-string" },
+    { text: ",",          cls: "syn-punct" },
+    { text: "\n  learning", cls: "syn-key" },
+    { text: ":",          cls: "syn-punct" },
+    { text: " [",         cls: "syn-bracket" },
+    { text: '"JavaScript"', cls: "syn-string" },
+    { text: ",",          cls: "syn-punct" },
+    { text: ' "React"',   cls: "syn-string" },
+    { text: "]",          cls: "syn-bracket" },
+    { text: ",",          cls: "syn-punct" },
+    { text: "\n  goal",   cls: "syn-key" },
+    { text: ":",          cls: "syn-punct" },
+    { text: ' "Computer Science"', cls: "syn-string" },
+    { text: "\n",         cls: null },
+    { text: "};",         cls: "syn-bracket" },
+  ];
 
-  function typeLine() {
-    if (lineIndex < codeLines.length) {
-      const line = document.createElement("div");
-      line.classList.add("code-line");
-      heroCode.appendChild(line);
+  heroCode.textContent = "";
 
-      let charIndex = 0;
-      function typeChar() {
-        if (charIndex < codeLines[lineIndex].length) {
-          line.textContent += codeLines[lineIndex][charIndex];
-          charIndex++;
-          setTimeout(typeChar, 25);
-        } else {
-          lineIndex++;
-          typeLine(); // next line
-        }
-      }
-      typeChar();
-    } else {
-      // Add final blinking cursor only at the end
+  // Build flat char list: [{char, cls}]
+  const chars = [];
+  tokens.forEach(tok => {
+    for (const ch of tok.text) {
+      chars.push({ char: ch, cls: tok.cls });
+    }
+  });
+
+  let i = 0;
+
+  function typeNext() {
+    if (i >= chars.length) {
+      // Add blinking cursor at end
       const cursor = document.createElement("span");
       cursor.classList.add("cursor");
-      cursor.textContent = "▌";
       heroCode.appendChild(cursor);
-      setInterval(() => {
-        cursor.style.opacity = cursor.style.opacity === "0" ? "1" : "0";
-      }, 500);
+      return;
     }
+
+    const { char, cls } = chars[i];
+    i++;
+
+    if (char === "\n") {
+      heroCode.appendChild(document.createTextNode("\n"));
+    } else {
+      const span = document.createElement("span");
+      if (cls) span.className = cls;
+      span.textContent = char;
+      heroCode.appendChild(span);
+    }
+
+    setTimeout(typeNext, 22);
   }
 
-  typeLine();
+  typeNext();
 });
 
 // =============================
 // Scroll Fade-In for Cards
 // =============================
-const cards = document.querySelectorAll(".card, .embed-card, .about-image");
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("fade-in");
-        observer.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.1 }
-);
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll(".card, .about-image");
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("fade-in");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
 
-cards.forEach((card) => observer.observe(card));
-
-// =============================
-// Dark Mode Toggle
-// =============================
-function toggleDarkMode() {
-  const root = document.documentElement;
-  const darkMode = root.classList.toggle("dark");
-
-  if (darkMode) {
-    root.style.setProperty("--bg", "#0b0f14");
-    root.style.setProperty("--bg-soft", "#111827");
-    root.style.setProperty("--card", "#0f172a");
-    root.style.setProperty("--border", "#1f2933");
-    root.style.setProperty("--text", "#e5e7eb");
-    root.style.setProperty("--text-muted", "#9ca3af");
-  } else {
-    root.style.setProperty("--bg", "#f9f9f9");
-    root.style.setProperty("--bg-soft", "#f0f0f0");
-    root.style.setProperty("--card", "#ffffff");
-    root.style.setProperty("--border", "#e0e0e0");
-    root.style.setProperty("--text", "#222222");
-    root.style.setProperty("--text-muted", "#555555");
-  }
-}
+  cards.forEach((card) => observer.observe(card));
+});

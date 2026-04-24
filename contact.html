@@ -1,55 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Contact - Oluwafemi Aisida</title>
-<link rel="stylesheet" href="style.css" />
-<link rel="icon" href="assets/favicon.png" type="image/png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact - Oluwafemi Aisida</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-<nav>
-  <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="about.html">About Me</a>
-    <a href="work.html">Work Experience</a>
-    <a href="projects2.html">Projects</a>
-    <a href="contact.html" class="active">Contact</a>
-  </div>
-</nav>
+  <nav>
+    <a href="index.html" class="nav-logo">Oluwafemi <span>Aisida</span></a>
+    <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Me</a>
+      <a href="work.html">Work Experience</a>
+      <a href="projects2.html">Projects</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+  </nav>
 
-<section class="container">
-  <h1>Contact Me</h1>
+  <section class="container">
+    <h1>Contact Me</h1>
 
-  <div class="settings">
-    <a href="assets/cv.pdf" class="btn secondary" download>⬇ Download CV</a>
-    <button class="btn primary" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆ Scroll to Top</button>
-  </div>
+    <div class="contact-actions">
+      <a href="assets/cv.pdf" class="btn secondary" download>⬇ Download CV</a>
+      <a href="https://github.com/femiaisida" class="btn secondary" target="_blank" rel="noopener">GitHub</a>
+    </div>
 
-  <div class="card">
-    <form action="https://formspree.io/f/xjkryojg" method="POST">
-      <label>
-        Your Name:
-        <input type="text" name="name" required>
-      </label>
-      <label>
-        Your Email:
-        <input type="email" name="email" required>
-      </label>
-      <label>
-        Your Message:
-        <textarea name="message" rows="5" required></textarea>
-      </label>
-      <button class="btn primary" type="submit">Send Message</button>
-    </form>
-  </div>
-</section>
+    <div class="card">
+      <form action="https://formspree.io/f/xjkryojg" method="POST">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" placeholder="e.g. Jane Smith" required>
 
-<footer>
-  <p>© 2025 Oluwafemi Aisida</p>
-</footer>
+        <label for="email">Your Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required>
 
-<script src="script.js"></script>
+        <label for="message">Your Message</label>
+        <textarea id="message" name="message" rows="5" placeholder="What would you like to say?" required></textarea>
+
+        <button class="btn primary" type="submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="https://github.com/femiaisida" target="_blank" rel="noopener">GitHub</a>
+      <a href="contact.html">Contact</a>
+      <a href="assets/cv.pdf" download>Download CV</a>
+    </div>
+    <p>© 2026 Oluwafemi Aisida</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
