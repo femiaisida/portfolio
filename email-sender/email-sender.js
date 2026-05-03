@@ -35,17 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
     sendBtn.disabled = true;
     sendBtn.querySelector('.btn-label').textContent = 'Sending…';
 
-    // Send all common EmailJS variable names to match whatever your template uses
+    // Variables match your template: Hello, {{message}} / Reply-To: {{reply_to}}
     emailjs.send('service_pliykwl', 'template_y206pdt', {
-      to_email:  to,
-      to_name:   to,
-      email:     to,
-      subject:   subject,
-      title:     subject,
-      message:   body,
-      body:      body,
-      reply_to:  to,
-      from_name: 'Portfolio Email Sender',
+      message:  `To: ${to}\nSubject: ${subject}\n\n${body}`,
+      reply_to: to,
     })
     .then(() => {
       setSuccess('✅ Email sent! Check your inbox (and spam).');
@@ -53,16 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
       charCount.textContent = '0 characters';
     })
     .catch(err => {
-      console.error('EmailJS error:', JSON.stringify(err));
-      // Give a more specific message if we can
-      const detail = err?.text || err?.message || '';
-      if (detail.includes('recipients')) {
-        setError('❌ EmailJS blocked this recipient. Check your template settings allow dynamic To addresses.');
-      } else if (detail.includes('template')) {
-        setError('❌ Template error — check your EmailJS dashboard for misconfigured variables.');
-      } else {
-        setError('❌ Failed to send. Open the browser console for details.');
-      }
+      console.error('EmailJS error:', err);
+      setError('❌ Failed to send. Check the browser console for details.');
     })
     .finally(() => {
       sendBtn.disabled = false;
