@@ -5,60 +5,112 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Page Not Found — Oluwafemi Aisida</title>
   <meta name="robots" content="noindex" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="icon" href="/portfolio/assets/favicon.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet" />
   <style>
-    .error-page {
-      min-height: 70vh;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0b0f14;
+      --card: #0f172a;
+      --border: #1f2933;
+      --text: #e5e7eb;
+      --text-muted: #9ca3af;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56,189,248,0.15);
+      --font-main: "Inter", sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+      --radius: 14px;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: radial-gradient(circle at top, #0f172a, var(--bg));
+      color: var(--text);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 60px 24px;
     }
+
+    nav {
+      position: sticky; top: 16px; z-index: 100;
+      margin: 16px; width: calc(100% - 32px); max-width: 1068px;
+      background: rgba(15,23,42,0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 28px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+    }
+
+    .nav-logo { text-decoration: none; color: var(--text); font-weight: 700; font-size: 1rem; white-space: nowrap; }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links { display: flex; align-items: center; }
+    .nav-links a { margin: 0 12px; text-decoration: none; color: var(--text-muted); font-weight: 500; transition: color 0.25s; }
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; padding: 4px 8px; }
+
+    .error-page {
+      flex: 1;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 60px 24px;
+    }
+
     .error-code {
       font-family: var(--font-mono);
       font-size: clamp(5rem, 20vw, 9rem);
-      font-weight: 700;
-      color: var(--accent);
-      line-height: 1;
-      opacity: 0.25;
-      margin-bottom: 16px;
-      letter-spacing: -0.04em;
+      font-weight: 700; color: var(--accent);
+      line-height: 1; opacity: 0.2; margin-bottom: 16px; letter-spacing: -0.04em;
     }
-    .error-title {
-      font-size: clamp(1.4rem, 4vw, 2rem);
-      font-weight: 700;
-      margin-bottom: 12px;
+
+    .error-title { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; margin-bottom: 12px; }
+
+    .error-desc { color: var(--text-muted); max-width: 420px; margin-bottom: 32px; font-size: 1rem; line-height: 1.6; }
+
+    .error-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+    .btn {
+      padding: 10px 20px; border-radius: 10px; font-weight: 500;
+      text-decoration: none; display: inline-flex; align-items: center;
+      gap: 6px; transition: transform 0.2s; font-family: var(--font-main); font-size: 1rem; border: none; cursor: pointer;
     }
-    .error-desc {
-      color: var(--text-muted);
-      max-width: 420px;
-      margin-bottom: 32px;
-      font-size: 1rem;
+    .btn.primary { background: var(--accent); color: #020617; box-shadow: 0 8px 25px rgba(56,189,248,0.25); }
+    .btn.secondary { border: 1px solid var(--border); color: var(--text); background: transparent; }
+    .btn:hover { transform: translateY(-2px); }
+
+    footer {
+      text-align: center; padding: 24px 0 32px;
+      font-size: 0.85rem; color: var(--text-muted);
+      border-top: 1px solid var(--border); margin-top: 20px; width: 100%;
     }
-    .error-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
+
+    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 8px; flex-wrap: wrap; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    @media (max-width: 640px) {
+      .nav-toggle { display: block; }
+      .nav-links { display: none; flex-direction: column; align-items: flex-start; width: 100%; padding-top: 12px; margin-top: 12px; border-top: 1px solid var(--border); }
+      .nav-links.open { display: flex; }
+      .nav-links a { margin: 8px 0; }
     }
   </style>
 </head>
 <body>
 
   <nav>
-    <a href="index.html" class="nav-logo">Oluwafemi <span>Aisida</span></a>
-    <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+    <a href="/portfolio/" class="nav-logo">Oluwafemi <span>Aisida</span></a>
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="document.querySelector('.nav-links').classList.toggle('open'); this.textContent = document.querySelector('.nav-links').classList.contains('open') ? '✕' : '☰'">☰</button>
     <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Me</a>
-      <a href="work.html">Work Experience</a>
-      <a href="projects2.html">Projects</a>
-      <a href="media.html">Media</a>
-      <a href="contact.html">Contact</a>
+      <a href="/portfolio/">Home</a>
+      <a href="/portfolio/about.html">About Me</a>
+      <a href="/portfolio/work.html">Work Experience</a>
+      <a href="/portfolio/projects2.html">Projects</a>
+      <a href="/portfolio/media.html">Media</a>
+      <a href="/portfolio/contact.html">Contact</a>
     </div>
   </nav>
 
@@ -69,8 +121,8 @@
       This page doesn't exist — it may have been moved, deleted, or you might have mistyped the URL.
     </p>
     <div class="error-actions">
-      <a href="index.html" class="btn primary">Go Home</a>
-      <a href="projects2.html" class="btn secondary">View Projects</a>
+      <a href="/portfolio/" class="btn primary">Go Home</a>
+      <a href="/portfolio/projects2.html" class="btn secondary">View Projects</a>
     </div>
   </div>
 
@@ -79,11 +131,10 @@
       <a href="https://github.com/femiaisida" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.linkedin.com/in/oluwafemi-emmanuel-aisida-5b6284398/" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://www.youtube.com/@OluwafemiCodes" target="_blank" rel="noopener">YouTube</a>
-      <a href="contact.html">Contact</a>
+      <a href="/portfolio/contact.html">Contact</a>
     </div>
     <p>© 2026 Oluwafemi Aisida</p>
   </footer>
 
-  <script src="script.js"></script>
 </body>
 </html>
