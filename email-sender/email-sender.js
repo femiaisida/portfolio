@@ -1,46 +1,78 @@
 // email-sender.js
 
-// Wait for the DOM to be fully loaded before attaching events
-document.addEventListener("DOMContentLoaded", function() {
-  // Reference form fields and the send button
-  const toInput = document.getElementById("toInput");
-  const subjectInput = document.getElementById("subjectInput");
-  const bodyInput = document.getElementById("bodyInput");
-  const sendButton = document.getElementById("sendButton");
+document.addEventListener('DOMContentLoaded', () => {
+  const toInput      = document.getElementById('toInput');
+  const subjectInput = document.getElementById('subjectInput');
+  const bodyInput    = document.getElementById('bodyInput');
+  const sendBtn      = document.getElementById('sendButton');
+  const statusMsg    = document.getElementById('status-msg');
+  const charCount    = document.getElementById('char-count');
 
-  sendButton.addEventListener("click", function() {
-    // Retrieve values from input fields, trimming any extra whitespace
-    const to = toInput.value.trim();
+  // ===== Character counter =====
+  bodyInput.addEventListener('input', () => {
+    const n = bodyInput.value.length;
+    charCount.textContent = n + ' character' + (n !== 1 ? 's' : '');
+  });
+
+  // ===== Validation =====
+  function setError(msg) {
+    statusMsg.textContent = msg;
+    statusMsg.className   = 'status-msg error';
+  }
+
+  function setSuccess(msg) {
+    statusMsg.textContent = msg;
+    statusMsg.className   = 'status-msg success';
+  }
+
+  function clearStatus() {
+    statusMsg.textContent = '';
+    statusMsg.className   = 'status-msg';
+  }
+
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  // ===== Send =====
+  sendBtn.addEventListener('click', () => {
+    clearStatus();
+
+    const to      = toInput.value.trim();
     const subject = subjectInput.value.trim();
-    const body = bodyInput.value.trim();
+    const body    = bodyInput.value.trim();
 
-    // Basic validation to ensure no field is empty
     if (!to || !subject || !body) {
-      alert("Please fill in all fields");
+      setError('Please fill in all fields before sending.');
       return;
     }
 
-    // Prepare the parameters for EmailJS.
-    // Adding 'reply_to' will instruct the email's reply header to use the user's email.
-    const templateParams = {
-      to_email: to,        // The user-entered recipient address
-      subject: subject,    // The subject provided by the user
-      message: body,       // The body message entered by the user
-      reply_to: to         // Sets the reply-to header to the user's email
-    };
+    if (!isValidEmail(to)) {
+      setError('That email address doesn\'t look right.');
+      return;
+    }
 
-    // Send the email using EmailJS.
-    emailjs.send('service_pliykwl', 'template_y206pdt', templateParams)
-      .then(function(response) {
-        console.log("SUCCESS!", response.status, response.text);
-        alert("Email sent successfully!");
-        // Reset form fields on success
-        toInput.value = "";
-        subjectInput.value = "";
-        bodyInput.value = "";
-      }, function(error) {
-        console.log("FAILED...", error);
-        alert("Failed to send email. Please try again later.");
-      });
+    sendBtn.disabled = true;
+    sendBtn.querySelector('.btn-label').textContent = 'Sending…';
+
+    emailjs.send('service_pliykwl', 'template_y206pdt', {
+      to_email: to,
+      subject:  subject,
+      message:  body,
+      reply_to: to,
+    })
+    .then(() => {
+      setSuccess('✅ Email sent successfully!');
+      toInput.value = subjectInput.value = bodyInput.value = '';
+      charCount.textContent = '0 characters';
+    })
+    .catch(err => {
+      console.error(err);
+      setError('❌ Failed to send. Please try again.');
+    })
+    .finally(() => {
+      sendBtn.disabled = false;
+      sendBtn.querySelector('.btn-label').textContent = 'Send';
+    });
   });
 });

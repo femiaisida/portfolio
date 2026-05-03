@@ -1,99 +1,200 @@
-/* email-sender.css */
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Theme Variables */
+/* ===== TOKENS ===== */
 :root {
-  --screen-bkg-color: #ffffff; /* White */
-  --inverted-bkg-color: rgba(56, 96, 178, 1);
-  --primary-color-1: rgba(56, 96, 178, 1);
-  --primary-color-1-light: rgba(56, 96, 178, 0.2);
-  --text-main: rgba(0, 0, 0, 1);
-  --text-main-inverted: rgba(255, 255, 255, 1);
-  --input-bkg: rgba(255, 255, 255, 1);
-  --input-text: rgba(0, 0, 0, 1);
-  --input-border: rgba(0, 18, 107, 1);
-  --hover-button-bkg: rgba(45, 77, 142, 1);
-  --container-radius: 4px;
-  --font-family: 'Lato', sans-serif;
+  --bg:       #f5f4f0;
+  --surface:  #ffffff;
+  --border:   #e2e0d8;
+  --text:     #1a1917;
+  --muted:    #6b6860;
+  --accent:   #2d5be3;
+  --accent-h: #1e46c4;
+  --green:    #16a34a;
+  --red:      #dc2626;
+  --radius:   14px;
+  --font:     'Space Grotesk', sans-serif;
 }
 
-/* Global Styles */
+/* ===== BASE ===== */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-family);
-  background-color: var(--screen-bkg-color);
-  color: var(--text-main);
-}
-
-
-
-/* Email App Container */
-.email-app {
-  max-width: 1366px;
-  margin: 2rem auto;
-  padding: 1rem;
-}
-
-/* Header */
-.email-app header {
-  background-color: rgba(153, 207, 236, 1);
-  padding: 1rem;
-  text-align: center;
-  border-radius: var(--container-radius);
-}
-
-.email-app header h1 {
-  margin: 0;
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--text-main);
-}
-
-/* Form Container */
-.form-container {
-  margin-top: 2rem;
-  padding: 1rem;
-  background-color: var(--input-bkg);
-  border: 2px solid var(--input-border);
-  border-radius: var(--container-radius);
-}
-
-.form-row {
-  margin-bottom: 1rem;
+  font-family: var(--font);
+  background: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-.form-label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-input[type="text"],
-input[type="email"],
-textarea {
+/* ===== HEADER ===== */
+.site-header {
   width: 100%;
-  padding: 0.5rem;
-  border: 2px solid var(--input-border);
-  border-radius: var(--container-radius);
-  font-size: 1rem;
-  color: var(--input-text);
+  max-width: 600px;
+  padding: 24px 24px 0;
 }
 
+.back-link {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--accent); }
+
+/* ===== APP ===== */
+.app {
+  width: 100%;
+  max-width: 600px;
+  padding: 28px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ===== TITLE BLOCK ===== */
+.app-title-block {
+  text-align: center;
+}
+
+.app-icon {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.app-subtitle {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* ===== COMPOSER ===== */
+.composer {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+/* ===== FIELDS ===== */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+input[type="email"],
+input[type="text"],
 textarea {
-  resize: vertical;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.95rem;
+  padding: 12px 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
 }
 
-button {
-  padding: 0.75rem 1.5rem;
-  background-color: var(--primary-color-1);
-  color: var(--text-main-inverted);
-  border: 2px solid var(--input-border);
-  border-radius: var(--container-radius);
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(45,91,227,0.1);
+}
+
+textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
+
+.char-count {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-align: right;
+  margin-top: -2px;
+}
+
+/* ===== ACTIONS ===== */
+.actions { display: flex; justify-content: flex-end; }
+
+.btn-send {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 28px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font);
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: bold;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(45,91,227,0.3);
 }
 
-button:hover {
-  background-color: var(--hover-button-bkg);
+.btn-send:hover { background: var(--accent-h); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,91,227,0.4); }
+.btn-send:active { transform: translateY(0); }
+.btn-send:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+.btn-icon { font-size: 1.1rem; }
+
+/* ===== STATUS ===== */
+.status-msg {
+  font-size: 0.85rem;
+  min-height: 1.2em;
+  text-align: center;
+  color: var(--muted);
+}
+
+.status-msg.success { color: var(--green); }
+.status-msg.error   { color: var(--red);   }
+
+.spam-note {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  width: 100%;
+  max-width: 600px;
+  padding: 16px 24px 28px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.site-footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.site-footer a:hover { color: var(--accent); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  .composer { padding: 20px; }
+  .actions { justify-content: stretch; }
+  .btn-send { width: 100%; justify-content: center; }
 }
