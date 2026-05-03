@@ -1,31 +1,30 @@
-// weather.js
-// Uses: postcodes.io (free, no key) + Open-Meteo (free, no key)
+// weather.js — real data via postcodes.io + Open-Meteo (both free, no API key)
 
 const HOT  = 27;
 const COLD = 5;
 
 const WMO_CODES = {
-  0:  { label: 'Clear Sky',        icon: '☀️' },
-  1:  { label: 'Mainly Clear',     icon: '🌤️' },
-  2:  { label: 'Partly Cloudy',    icon: '⛅' },
-  3:  { label: 'Overcast',         icon: '☁️' },
-  45: { label: 'Foggy',            icon: '🌫️' },
-  48: { label: 'Icy Fog',          icon: '🌫️' },
-  51: { label: 'Light Drizzle',    icon: '🌦️' },
-  53: { label: 'Drizzle',          icon: '🌦️' },
-  55: { label: 'Heavy Drizzle',    icon: '🌧️' },
-  61: { label: 'Light Rain',       icon: '🌧️' },
-  63: { label: 'Rain',             icon: '🌧️' },
-  65: { label: 'Heavy Rain',       icon: '🌧️' },
-  71: { label: 'Light Snow',       icon: '🌨️' },
-  73: { label: 'Snow',             icon: '❄️' },
-  75: { label: 'Heavy Snow',       icon: '❄️' },
-  80: { label: 'Rain Showers',     icon: '🌦️' },
-  81: { label: 'Showers',          icon: '🌧️' },
-  82: { label: 'Violent Showers',  icon: '⛈️' },
-  95: { label: 'Thunderstorm',     icon: '⛈️' },
-  96: { label: 'Thunderstorm',     icon: '⛈️' },
-  99: { label: 'Thunderstorm',     icon: '⛈️' },
+  0:  { label: 'Clear Sky',       icon: '☀️' },
+  1:  { label: 'Mainly Clear',    icon: '🌤️' },
+  2:  { label: 'Partly Cloudy',   icon: '⛅' },
+  3:  { label: 'Overcast',        icon: '☁️' },
+  45: { label: 'Foggy',           icon: '🌫️' },
+  48: { label: 'Icy Fog',         icon: '🌫️' },
+  51: { label: 'Light Drizzle',   icon: '🌦️' },
+  53: { label: 'Drizzle',         icon: '🌦️' },
+  55: { label: 'Heavy Drizzle',   icon: '🌧️' },
+  61: { label: 'Light Rain',      icon: '🌧️' },
+  63: { label: 'Rain',            icon: '🌧️' },
+  65: { label: 'Heavy Rain',      icon: '🌧️' },
+  71: { label: 'Light Snow',      icon: '🌨️' },
+  73: { label: 'Snow',            icon: '❄️' },
+  75: { label: 'Heavy Snow',      icon: '❄️' },
+  80: { label: 'Rain Showers',    icon: '🌦️' },
+  81: { label: 'Showers',         icon: '🌧️' },
+  82: { label: 'Violent Showers', icon: '⛈️' },
+  95: { label: 'Thunderstorm',    icon: '⛈️' },
+  96: { label: 'Thunderstorm',    icon: '⛈️' },
+  99: { label: 'Thunderstorm',    icon: '⛈️' },
 };
 
 // ===== DOM =====
@@ -45,17 +44,16 @@ function isValidUKPostcode(p) {
   return /^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$/i.test(p.trim());
 }
 
-// ===== FETCH =====
 forecastBtn.addEventListener('click', fetchForecast);
 postcodeInput.addEventListener('keydown', e => { if (e.key === 'Enter') fetchForecast(); });
 
 async function fetchForecast() {
-  const raw      = postcodeInput.value.trim();
+  const raw = postcodeInput.value.trim();
   inputHint.textContent = '';
   inputHint.style.color = '#e74c3c';
 
-  if (!raw) { inputHint.textContent = 'Please enter a postcode.'; return; }
-  if (!isValidUKPostcode(raw)) { inputHint.textContent = "That doesn't look like a valid UK postcode."; return; }
+  if (!raw)                      { inputHint.textContent = 'Please enter a postcode.'; return; }
+  if (!isValidUKPostcode(raw))   { inputHint.textContent = "That doesn't look like a valid UK postcode."; return; }
 
   forecastBtn.textContent = 'Loading…';
   forecastBtn.disabled    = true;
@@ -68,39 +66,36 @@ async function fetchForecast() {
     const geoData = await geoRes.json();
 
     if (geoData.status !== 200) {
-      inputHint.textContent = 'Postcode not found — try another.';
+      inputHint.textContent = 'Postcode not found — please try another.';
       return;
     }
 
     const { latitude: lat, longitude: lon, admin_district: area } = geoData.result;
 
-    // 2. Get tomorrow's forecast from Open-Meteo
-    const today    = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-    const dateStr  = tomorrow.toISOString().slice(0, 10);
+    // 2. Get tomorrow's date string
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const dateStr = tomorrow.toISOString().slice(0, 10);
 
+    // 3. Fetch forecast from Open-Meteo
     const meteoUrl =
       `https://api.open-meteo.com/v1/forecast` +
       `?latitude=${lat}&longitude=${lon}` +
       `&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_sum,windspeed_10m_max` +
-      `&hourly=apparent_temperature` +
-      `&timezone=Europe/London` +
-      `&forecast_days=3`;
+      `&timezone=Europe/London&forecast_days=3`;
 
     const meteoRes  = await fetch(meteoUrl);
     const meteoData = await meteoRes.json();
 
-    // Find index for tomorrow's date
     const idx = meteoData.daily.time.indexOf(dateStr);
-    if (idx === -1) throw new Error('Date not found in forecast');
+    if (idx === -1) throw new Error('Date not in forecast range');
 
-    const high  = Math.round(meteoData.daily.temperature_2m_max[idx]);
-    const low   = Math.round(meteoData.daily.temperature_2m_min[idx]);
-    const code  = meteoData.daily.weathercode[idx];
-    const rain  = meteoData.daily.precipitation_sum[idx];
-    const wind  = Math.round(meteoData.daily.windspeed_10m_max[idx]);
-    const wmo   = WMO_CODES[code] || { label: 'Mixed', icon: '🌤️' };
+    const high = Math.round(meteoData.daily.temperature_2m_max[idx]);
+    const low  = Math.round(meteoData.daily.temperature_2m_min[idx]);
+    const code = meteoData.daily.weathercode[idx];
+    const rain = meteoData.daily.precipitation_sum[idx];
+    const wind = Math.round(meteoData.daily.windspeed_10m_max[idx]);
+    const wmo  = WMO_CODES[code] || { label: 'Mixed conditions', icon: '🌤️' };
 
     currentForecast = { high, low, code, rain, wind, wmo, area, dateStr };
     renderForecast(currentForecast);
@@ -117,12 +112,11 @@ async function fetchForecast() {
 function renderForecast(f) {
   document.getElementById('location-name').textContent = f.area || '';
   document.getElementById('conditions').textContent    = f.wmo.label;
+  document.getElementById('tempHigh').textContent      = f.high;
+  document.getElementById('tempLow').textContent       = f.low;
   document.getElementById('daySummary').textContent    =
     `${f.rain > 0 ? f.rain.toFixed(1) + 'mm of rain expected.' : 'No rain expected.'} Wind up to ${f.wind} km/h.`;
-  document.getElementById('nightSummary').textContent  =
-    `Low of ${f.low}°C overnight.`;
-  document.getElementById('tempHigh').textContent = f.high;
-  document.getElementById('tempLow').textContent  = f.low;
+  document.getElementById('nightSummary').textContent  = `Low of ${f.low}°C overnight.`;
 
   weatherIcon.textContent = f.wmo.icon;
   forecastGrid.hidden     = false;
@@ -133,44 +127,44 @@ function renderForecast(f) {
   if (isHot || isCold) {
     document.getElementById('alert-title').textContent =
       isHot ? '🔥 Extreme heat alert' : '🧊 Extreme cold alert';
-    document.getElementById('alert-desc').textContent =
-      isHot
-        ? `Tomorrow's high of ${f.high}°C is unusually warm. Stay hydrated and avoid prolonged sun exposure. Get an email reminder below.`
-        : `Tomorrow's low of ${f.low}°C is very cold. Dress warmly and check on vulnerable people nearby. Get an email reminder below.`;
+    document.getElementById('alert-desc').textContent = isHot
+      ? `Tomorrow's high of ${f.high}°C is unusually warm. Stay hydrated and avoid prolonged sun exposure. Get an email reminder below.`
+      : `Tomorrow's low of ${f.low}°C is very cold. Dress warmly and check on vulnerable people nearby. Get an email reminder below.`;
     alertSection.hidden = false;
   } else {
     alertSection.hidden = true;
   }
 }
 
-// ===== SEND EMAIL ALERT =====
+// ===== EMAIL ALERT =====
 emailBtn.addEventListener('click', () => {
   const email = emailInput.value.trim();
   emailStatus.textContent = '';
 
-  if (!email) { emailStatus.textContent = 'Please enter your email address.'; return; }
-  if (!currentForecast) { emailStatus.textContent = 'Get a forecast first.'; return; }
+  if (!email)            { emailStatus.textContent = 'Please enter your email address.'; return; }
+  if (!currentForecast)  { emailStatus.textContent = 'Get a forecast first.'; return; }
 
   emailBtn.textContent = 'Sending…';
   emailBtn.disabled    = true;
 
   const isHot = currentForecast.high > HOT;
   const msg   = isHot
-    ? `It will be very hot tomorrow in ${currentForecast.area} (${currentForecast.high}°C). Stay cool and hydrated.`
-    : `It will be very cold tomorrow in ${currentForecast.area} (${currentForecast.low}°C). Bundle up and stay warm.`;
+    ? `Extreme heat alert for ${currentForecast.area}.\nTomorrow's high: ${currentForecast.high}°C. Stay hydrated and avoid prolonged sun exposure.`
+    : `Extreme cold alert for ${currentForecast.area}.\nTomorrow's low: ${currentForecast.low}°C. Bundle up and stay warm.`;
 
+  // EmailJS free tier blocks dynamic To addresses (causes 412).
+  // We pass only {{message}} and {{reply_to}} to match the template.
+  // The recipient's email is included inside the message text.
   emailjs.send('service_pliykwl', 'template_cpdx3ic', {
-    to_email: email,
-    subject:  `Extreme Weather Alert — ${currentForecast.area}`,
-    message:  msg,
+    message:  `Alert requested by: ${email}\n\n${msg}`,
+    reply_to: email,
   })
   .then(() => {
-    emailStatus.textContent = '✅ Alert sent! Check your inbox (and spam).';
+    emailStatus.textContent = '✅ Alert sent!';
     emailInput.value = '';
   })
-  .catch(err => {
-    console.error(err);
-    emailStatus.textContent = '❌ Failed to send — please try again.';
+  .catch(() => {
+    emailStatus.textContent = '❌ Failed to send. Please try again.';
   })
   .finally(() => {
     emailBtn.textContent = 'Send Alert';
