@@ -400,3 +400,12 @@ footer {
   .hero h1 { font-size: 2rem; }
   .hero-tag { font-size: 0.8rem; }
 }
+
+/* ==============================
+   MEDIA PAGE
+================================ */
+.media-embed {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #000;
+}
