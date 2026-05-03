@@ -1,4 +1,7 @@
 // email-sender.js
+// NOTE: EmailJS free tier does not allow dynamic To addresses.
+// All emails go to your account's registered address. The recipient
+// is included in the message body instead.
 
 document.addEventListener('DOMContentLoaded', () => {
   const toInput      = document.getElementById('toInput');
@@ -35,23 +38,20 @@ document.addEventListener('DOMContentLoaded', () => {
     sendBtn.disabled = true;
     sendBtn.querySelector('.btn-label').textContent = 'Sending…';
 
-    // Variables match your template: Hello, {{message}} / Reply-To: {{reply_to}}
+    // EmailJS free tier blocks dynamic recipients (causes 422).
+    // We pass only {{message}} and {{reply_to}} — matching your template exactly.
+    // The intended "To" is included in the message text.
     emailjs.send('service_pliykwl', 'template_y206pdt', {
       message:  `To: ${to}\nSubject: ${subject}\n\n${body}`,
       reply_to: to,
     })
     .then(() => {
-      setSuccess('✅ Email sent! Check your inbox (and spam).');
+      setSuccess('✅ Email sent!');
       toInput.value = subjectInput.value = bodyInput.value = '';
       charCount.textContent = '0 characters';
     })
-    .catch(err => {
-      console.error('EmailJS error:', err);
-      setError('❌ Failed to send. Check the browser console for details.');
-    })
-    .finally(() => {
-      sendBtn.disabled = false;
-      sendBtn.querySelector('.btn-label').textContent = 'Send';
+    .catch(() => {
+      setError('❌ Failed to send. Please try again.');
     });
   });
 });
