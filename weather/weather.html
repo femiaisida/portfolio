@@ -3,91 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Weather Forecast</title>
+  <title>Weather Forecast — Oluwafemi Aisida</title>
   <link rel="stylesheet" href="weather.css" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <nav>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Me</a>
-      <a href="work.html">Work Experience</a>
-      <a href="projects2.html">Projects</a>
-      <a href="weather.html" class="active">Weather App</a>
+
+  <header class="site-header">
+    <a href="../projects2.html" class="back-link">← Back to Projects</a>
+  </header>
+
+  <main class="app">
+
+    <div class="hero-block">
+      <div class="weather-icon" id="weather-icon" aria-hidden="true">🌤️</div>
+      <h1 class="app-title">UK Weather</h1>
+      <p class="app-subtitle">Tomorrow's forecast for any postcode</p>
     </div>
-    <button class="toggle-btn" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
-  </nav>
 
-  <!-- Weather App Content -->
-  <div class="weather-app">
-    <header>
-      <h1>WEATHER FORECAST</h1>
-    </header>
-
-    <section class="input-section">
-      <label for="postcode">Where do you want the weather for?</label>
-      <input type="text" id="postcode" placeholder="Enter the postcode..." />
-      <button id="getForecast">Get Tomorrow's Forecast</button>
-    </section>
-
-    <section class="forecast-section">
-      <div class="forecast-grid">
-        <div class="forecast-block"><strong>Conditions</strong><p id="conditions">--</p></div>
-        <div class="forecast-block"><strong>Day Summary</strong><p id="daySummary">--</p></div>
-        <div class="forecast-block"><strong>Night Summary</strong><p id="nightSummary">--</p></div>
-        <div class="forecast-block"><strong>Temperature High (°C)</strong><p id="tempHigh">--</p></div>
-        <div class="forecast-block"><strong>Temperature Low (°C)</strong><p id="tempLow">--</p></div>
+    <div class="search-card">
+      <label for="postcode" class="sr-only">Enter a UK postcode</label>
+      <div class="input-row">
+        <input type="text" id="postcode" placeholder="e.g. NE1 4ST" maxlength="8" autocomplete="off" />
+        <button id="getForecast" class="btn-search">Get Forecast</button>
       </div>
-    </section>
+      <p class="input-hint" id="input-hint"></p>
+    </div>
 
-    <section class="email-section">
-      <label for="email">What is your email?</label>
-      <input type="email" id="email" placeholder="Enter your email..." />
-      <button id="submitEmail">Enter</button>
-    </section>
-  </div>
+    <div class="forecast-grid" id="forecast-grid" hidden>
+      <div class="forecast-card highlight">
+        <span class="fc-label">High</span>
+        <span class="fc-value large" id="tempHigh">—</span>
+        <span class="fc-unit">°C</span>
+      </div>
+      <div class="forecast-card highlight">
+        <span class="fc-label">Low</span>
+        <span class="fc-value large" id="tempLow">—</span>
+        <span class="fc-unit">°C</span>
+      </div>
+      <div class="forecast-card wide">
+        <span class="fc-label">Conditions</span>
+        <span class="fc-value" id="conditions">—</span>
+      </div>
+      <div class="forecast-card wide">
+        <span class="fc-label">Day</span>
+        <span class="fc-value small" id="daySummary">—</span>
+      </div>
+      <div class="forecast-card wide">
+        <span class="fc-label">Night</span>
+        <span class="fc-value small" id="nightSummary">—</span>
+      </div>
+    </div>
 
-  <footer style="text-align: center; opacity: 0.6">
-    <p>© 2025 My Portfolio</p>
+    <div class="alert-card" id="alert-section" hidden>
+      <p class="alert-title" id="alert-title">⚠️ Extreme weather alert</p>
+      <p class="alert-desc" id="alert-desc"></p>
+      <div class="email-row">
+        <label for="email" class="sr-only">Your email for alert</label>
+        <input type="email" id="email" placeholder="your@email.com" />
+        <button id="submitEmail" class="btn-alert">Send Alert</button>
+      </div>
+      <p class="email-status" id="email-status"></p>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <a href="../projects2.html">← All Projects</a>
+    <span>© 2026 Oluwafemi Aisida</span>
   </footer>
 
-  <!-- Load EmailJS SDK first -->
+  <script src="https://cdn.emailjs.com/sdk/3.2/email.min.js"></script>
   <script>
-  const sdk = document.createElement("script");
-  sdk.src = "https://cdn.emailjs.com/sdk/3.2/email.min.js";
-
-  const spinnerBtn = document.getElementById("submitEmail");
-  spinnerBtn?.classList.add("loading");
-
-  sdk.onload = () => {
-    emailjs.init("gzvOEAhNIJOR8CMkS");
-    window.emailjsReady = true;
-    spinnerBtn?.classList.remove("loading");
-  };
-
-  document.head.appendChild(sdk);
-</script>
-
-<script>
-  window.emailjsReady = false; // declare globally for weather.js to see
-
-  const sdk = document.createElement("script");
-  sdk.src = "https://cdn.emailjs.com/sdk/3.2/email.min.js";
-  sdk.onload = () => {
-    console.log("✅ EmailJS SDK loaded");
-    emailjs.init("gzvOEAhNIJOR8CMkS"); // your real public key
-    window.emailjsReady = true;
-  };
-  document.head.appendChild(sdk);
-</script>
-
-
-
-  <!-- Then load your app logic -->
-  <script src="weather.js" defer></script>
-  <script src="script.js" defer></script>
+    if (window.emailjs) {
+      emailjs.init('gzvOEAhNIJOR8CMkS');
+      window.emailjsReady = true;
+    }
+  </script>
+  <script src="weather.js"></script>
 </body>
 </html>
