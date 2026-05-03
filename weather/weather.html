@@ -31,6 +31,10 @@
     </div>
 
     <div class="forecast-grid" id="forecast-grid" hidden>
+      <div class="forecast-card wide location-card">
+        <span class="fc-label">Location</span>
+        <span class="fc-value" id="location-name">—</span>
+      </div>
       <div class="forecast-card highlight">
         <span class="fc-label">High</span>
         <span class="fc-value large" id="tempHigh">—</span>
@@ -74,12 +78,7 @@
   </footer>
 
   <script src="https://cdn.emailjs.com/sdk/3.2/email.min.js"></script>
-  <script>
-    if (window.emailjs) {
-      emailjs.init('gzvOEAhNIJOR8CMkS');
-      window.emailjsReady = true;
-    }
-  </script>
+  <script>emailjs.init('gzvOEAhNIJOR8CMkS');</script>
   <script src="weather.js"></script>
 </body>
 </html>
