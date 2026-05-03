@@ -1,28 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>title</title>
-    <link rel="stylesheet" href="blackjack.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blackjack — Oluwafemi Aisida</title>
+  <link rel="stylesheet" href="blackjack.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-    
-        <h1>Blackjack</h1>
-    <button class="rules" id="show-el" >Rules: You need 21 to get Blackjack. Each new card costs $2 but if you get Blackjack you receive your original bet +$3</button>
-    <button class="rules-2" id="hide-el" onclick="hideRules()"> </button>
-    <p id="message-el">Want to play a round?</p>
-    <p id="cards-el">Cards:</p>
-    <p id="sum-el">Sum:</p>
+  <header class="site-header">
+    <a href="../projects2.html" class="back-link">← Back to Projects</a>
+    <h1 class="site-title">Blackjack</h1>
+    <p class="site-subtitle">Built with HTML, CSS &amp; JavaScript</p>
+  </header>
 
-    <div class="button-section">
-    <button  id="start-el" onclick="startGame()">START GAME</button>
-     
-    <button onclick="newCard()">NEW CARD</button>
+  <main class="table">
+
+    <div class="hud">
+      <div class="hud-item">
+        <span class="hud-label">Chips</span>
+        <span class="hud-value" id="chips-el">$100</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Bet</span>
+        <span class="hud-value" id="bet-el">$2</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Sum</span>
+        <span class="hud-value" id="sum-el">—</span>
+      </div>
     </div>
-    <p id="player-el"></p>
-    
-    <script src="blackjack.js"></script>
 
+    <div class="cards-area" id="cards-area">
+      <p class="prompt" id="prompt-el">Press <strong>Deal</strong> to start a new round.</p>
+    </div>
+
+    <div class="message-bar" id="message-el"></div>
+
+    <div class="controls">
+      <button class="btn btn-deal" id="deal-btn" onclick="startGame()">Deal</button>
+      <button class="btn btn-hit" id="hit-btn" onclick="newCard()" disabled>Hit</button>
+    </div>
+
+    <details class="rules-details">
+      <summary>How to play</summary>
+      <ul>
+        <li>Each round costs <strong>$2</strong>.</li>
+        <li>Get as close to <strong>21</strong> as possible without going over.</li>
+        <li>Hit 21 exactly and win your bet back plus <strong>$3</strong> bonus.</li>
+        <li>Go over 21 and you <strong>bust</strong> — round over.</li>
+        <li>Run out of chips? Refresh to start fresh.</li>
+      </ul>
+    </details>
+
+  </main>
+
+  <script src="blackjack.js"></script>
 </body>
 </html>

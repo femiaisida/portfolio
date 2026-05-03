@@ -1,150 +1,132 @@
-let cards = []
-let sum = 0
-let hasBlackjack = false
-let isAlive = false
-let message = ""
-let messageEl = document.getElementById("message-el")
-let sumEl = document.getElementById("sum-el")
-let cardsEl = document.getElementById("cards-el")
-let startOrRestart= document.getElementById("start-el")
-let showEl = document.getElementById("show-el")
-let hideEl= document.getElementById("hide-el")
+// ===== STATE =====
+const SUITS = ['♠','♥','♦','♣'];
+const VALUES = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+const RED_SUITS = new Set(['♥','♦']);
+const BET = 2;
 
-let player = {
-    name:"Player",
-    chips: 100
+let chips     = 100;
+let hand      = [];   // [{value, suit, numeric}]
+let sum       = 0;
+let isAlive   = false;
+let roundOver = false;
 
+// ===== DOM =====
+const chipsEl  = document.getElementById('chips-el');
+const betEl    = document.getElementById('bet-el');
+const sumEl    = document.getElementById('sum-el');
+const cardsArea= document.getElementById('cards-area');
+const msgEl    = document.getElementById('message-el');
+const dealBtn  = document.getElementById('deal-btn');
+const hitBtn   = document.getElementById('hit-btn');
+const promptEl = document.getElementById('prompt-el');
+
+// ===== CARD LOGIC =====
+function randomCard() {
+  const suit  = SUITS[Math.floor(Math.random() * 4)];
+  const value = VALUES[Math.floor(Math.random() * 13)];
+  let numeric;
+  if (value === 'A')                    numeric = 11;
+  else if (['J','Q','K'].includes(value)) numeric = 10;
+  else                                   numeric = parseInt(value);
+  return { suit, value, numeric };
 }
 
-
-
-let playerEl= document.getElementById("player-el")
-playerEl.textContent = player.name + ": $" + player.chips
-
-function getRandomCard () {
-    let randomNumber = Math.floor(Math.random() * 13) +1
-    if (randomNumber === 1){
-        return 11
-    }else if (randomNumber > 10){
-        return 10
-    }else {
-        return randomNumber
-    }
+function calcSum(cards) {
+  let total = cards.reduce((acc, c) => acc + c.numeric, 0);
+  // Adjust aces from 11 → 1 if bust
+  let aces = cards.filter(c => c.value === 'A').length;
+  while (total > 21 && aces > 0) { total -= 10; aces--; }
+  return total;
 }
 
+// ===== RENDER =====
+function renderCard(card, delay = 0) {
+  const el = document.createElement('div');
+  el.className = 'card' + (RED_SUITS.has(card.suit) ? ' red' : '');
+  el.style.animationDelay = delay + 's';
+
+  const top = document.createElement('div');
+  top.className = 'card-value';
+  top.textContent = card.value + card.suit;
+
+  const bot = document.createElement('div');
+  bot.className = 'card-value bottom';
+  bot.textContent = card.value + card.suit;
+
+  el.appendChild(top);
+  el.appendChild(bot);
+  cardsArea.appendChild(el);
+}
+
+function renderHand() {
+  cardsArea.innerHTML = '';
+  hand.forEach((card, i) => renderCard(card, i * 0.08));
+}
+
+function updateHUD() {
+  chipsEl.textContent = '$' + chips;
+  betEl.textContent   = '$' + BET;
+  sumEl.textContent   = sum > 0 ? sum : '—';
+}
+
+function setMessage(text, colour) {
+  msgEl.textContent = text;
+  msgEl.style.color = colour || 'var(--gold-light)';
+}
+
+// ===== GAME FLOW =====
 function startGame() {
-    if (player.chips >= 2) {
-    isAlive = true
-    let firstcard= getRandomCard ()
-    let secondCard = getRandomCard ()
-    cards = [firstcard, secondCard]
-    sum = firstcard + secondCard
-    renderGame()
+  if (chips < BET) {
+    setMessage('No chips left — refresh to restart.', '#e74c3c');
+    dealBtn.disabled = true;
+    return;
+  }
 
-    }  else  {
+  // Deduct bet
+  chips -= BET;
+  hand = [randomCard(), randomCard()];
+  sum  = calcSum(hand);
+  isAlive   = true;
+  roundOver = false;
 
-         startOrRestart.textContent=("NO MONEY LEFT")
-    }
+  renderHand();
+  updateHUD();
 
-        if (startOrRestart.textContent == "RESTART GAME"){
+  dealBtn.textContent = 'Re-deal';
+  hitBtn.disabled = false;
 
-            showRules ()
-
-
-        }
-    
-}
-
-function renderGame() {
-
-    
-
-    player.chips+= -2
-playerEl.textContent = player.name + ": $" + player.chips
-
-    cardsEl.textContent = ("Cards: " )
-for (let i=0 ; i < cards.length; i++) {
-
-    cardsEl.textContent += cards[i] + " "
-    sumEl.textContent = ("Sum: " + sum)
-}
-
-
-
-sumEl.textContent = ("Sum: " + sum)
-
-if (sum <= 20) {
-
-    message=("Do you want to draw a new card?")
-} else if (sum === 21) {
-
-    player.chips+=5
-    message=("Woohoo! You've got Blackjack!")
-    hasBlackjack = true
-    startOrRestart.textContent=("WINNER")
-    hasBlackjack=false
-    
-}else {
-
-    message=(" Bust! You're out of the game!")
-    isAlive = false
-
-}
-
-messageEl.textContent =(message)
-startOrRestart.textContent=("RESTART GAME")
-
-
+  if (sum === 21) {
+    endRound('blackjack');
+  } else {
+    setMessage('Hit to draw another card, or re-deal to fold.');
+  }
 }
 
 function newCard() {
+  if (!isAlive || roundOver) return;
+  chips -= BET;
+  const card = randomCard();
+  hand.push(card);
+  sum = calcSum(hand);
+  renderCard(card, 0);
+  updateHUD();
 
-    if (isAlive === true && hasBlackjack === false && player.chips> 2) {
-
-    let card= getRandomCard ()
-    sum+= card
-    cards.push(card)
-    renderGame()
-
-    }
-
+  if (sum > 21)      endRound('bust');
+  else if (sum === 21) endRound('blackjack');
+  else setMessage('Sum: ' + sum + ' — keep going or re-deal?');
 }
 
-function showRules() {
+function endRound(result) {
+  isAlive   = false;
+  roundOver = true;
+  hitBtn.disabled = true;
 
-    showEl.textContent=""
-    hideEl.textContent="CLICK TO SHOW RULES"
-    
+  if (result === 'blackjack') {
+    chips += BET + 5;   // bet back + $3 bonus
+    updateHUD();
+    setMessage('🎉 Blackjack! You win $3 bonus!', '#2ecc71');
+  } else {
+    setMessage('💥 Bust! You went over 21.', '#e74c3c');
+    updateHUD();
+  }
 }
-
-
-
-
-
-function hideRules () {
-
-    hideEl.textContent=""
-    showEl.textContent="Rules: You need 21 to get Blackjack. Each new card costs $2 but if you get Blackjack you receive your original bet +$3"
-   showEl.innerHTMl += `
-   <style> 
-   .rules {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 2em;
-    margin-bottom: 2em;
-    text-align: left;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-    background: #145214;
-    </style>
-    `
-}
-
-
-
-
-
-
-
-
-
